@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from 'framer-motion';
 import { 
   Sparkles, 
@@ -26,7 +26,7 @@ import { extractTextFromPDF, generateQuiz, generateCriticism, generateStudyGuide
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import confetti from 'canvas-confetti';
-import ReactMarkdown from 'react-markdown';
+import React, { useEffect, useState } from "react";
 
 // --- Utility ---
 function cn(...inputs: ClassValue[]) {
@@ -123,6 +123,21 @@ const LoadingView = () => {
 
 // --- Main App ---
 export default function App() {
+  const [geminiText, setGeminiText] = useState<string>("");
+  useEffect(() => {
+    fetch("/api/gemini", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: "Hello from QuizMaster" })
+    })
+    .then(r => r.json())
+    .then(d => {
+      console.log("Gemini OK:", d.text);
+      setGeminiText(d.text);
+    })
+    .catch(e => console.error("Gemini FAIL:", e));
+  }, []);
+
   const [view, setView] = useState<'landing' | 'setup' | 'game' | 'results'>('landing');
   const [topic, setTopic] = useState('');
   const [file, setFile] = useState<File | null>(null);
