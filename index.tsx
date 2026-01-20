@@ -1,13 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { ErrorBoundary } from "./ErrorBoundary";
 import "./index.css";
-const container = document.getElementById("root");
-if (!container) {
-  throw new Error("Root container missing in index.html");
+const root = document.getElementById("root");
+if (!root) {
+  throw new Error("Root element missing");
 }
-ReactDOM.createRoot(container).render(
+ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>
 );
